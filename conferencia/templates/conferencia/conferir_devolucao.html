@@ -1,0 +1,39 @@
+{% extends "conferencia/base.html" %}
+{% block titulo %}Conferir devolução{% endblock %}
+{% block passos %}
+<section class="alert alert-info" aria-label="Passo a passo">
+  <strong>Passo a passo</strong>
+  <ol class="passos list-inline mb-0">
+    <li class="list-inline-item">(1) Abra a caixa e veja a peça.</li>
+    <li class="list-inline-item">(2) Marque a condição.</li>
+    <li class="list-inline-item">(3) Escolha o destino.</li>
+    <li class="list-inline-item">(4) Clique em Salvar conferência.</li>
+  </ol>
+</section>
+{% endblock %}
+{% block cabecalho %}Conferir devolução{% endblock %}
+{% block conteudo %}
+<div class="row g-3">
+  <div class="col-lg-5"><div class="card p-3">
+    <h2 class="h4">Devolução recebida</h2>
+    <dl class="mb-0">
+      <dt>Produto</dt><dd>{{ devolucao.produto.descricao }}</dd>
+      <dt>Código</dt><dd>{{ devolucao.produto.codigo_sku }}</dd>
+      <dt>Quantidade</dt><dd>{{ devolucao.quantidade }}</dd>
+      <dt>Origem</dt><dd>{{ devolucao.canal_origem|default:"não informada" }}</dd>
+      <dt>Pedido</dt><dd>{{ devolucao.numero_pedido|default:"-" }}</dd>
+    </dl></div></div>
+  <div class="col-lg-7"><form method="post" class="card p-3">
+    {% csrf_token %}
+    <h2 class="h4">Resultado da sua conferência</h2>
+    {% if form.non_field_errors %}<div class="alert alert-danger" role="alert"><strong>{{ form.non_field_errors.0 }}</strong></div>{% endif %}
+    <fieldset class="mb-3"><legend class="fs-5 fw-bold">Condição da peça</legend>
+      {% for radio in form.condicao %}<div class="form-check fs-5">{{ radio.tag }} <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label></div>{% endfor %}</fieldset>
+    <fieldset class="mb-3"><legend class="fs-5 fw-bold">Para onde vai a peça?</legend>
+      {% for radio in form.destino %}<div class="form-check fs-5">{{ radio.tag }} <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label></div>{% endfor %}</fieldset>
+    <div class="mb-3"><label class="fw-bold" for="{{ form.observacao.id_for_label }}">{{ form.observacao.label }}</label>{{ form.observacao }}</div>
+    <div class="d-flex gap-2"><button class="btn btn-primary" type="submit" style="background:#0f4c5c;border-color:#0f4c5c">Salvar conferência</button>
+      <a class="btn btn-outline-secondary" href="{% url 'fila_devolucoes' %}">Voltar à fila</a></div>
+  </form></div>
+</div>
+{% endblock %}

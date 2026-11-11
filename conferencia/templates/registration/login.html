@@ -1,0 +1,24 @@
+{% extends "conferencia/base.html" %}
+{% block titulo %}Entrar{% endblock %}
+{% block passos %}
+<section class="alert alert-info" aria-label="Passo a passo">
+  <strong>Passo a passo</strong>
+  <ol class="passos list-inline mb-0">
+    <li class="list-inline-item">(1) Digite seu usuário.</li>
+    <li class="list-inline-item">(2) Digite sua senha.</li>
+    <li class="list-inline-item">(3) Clique em Entrar.</li>
+  </ol>
+</section>
+{% endblock %}
+{% block cabecalho %}Entrar no sistema{% endblock %}
+{% block conteudo %}
+<form method="post" class="card p-4" style="max-width:480px">
+  {% csrf_token %}
+  {% if form.errors %}<div class="alert alert-danger" role="alert">Usuário ou senha incorretos. Tente de novo.</div>{% endif %}
+  <div class="mb-3"><label class="form-label fw-bold" for="id_username">Usuário</label>
+    <input class="form-control form-control-lg" type="text" name="username" id="id_username" autocomplete="username" autofocus required></div>
+  <div class="mb-3"><label class="form-label fw-bold" for="id_password">Senha</label>
+    <input class="form-control form-control-lg" type="password" name="password" id="id_password" autocomplete="current-password" required></div>
+  <button class="btn btn-primary btn-lg" type="submit" style="background:#0f4c5c;border-color:#0f4c5c">Entrar</button>
+</form>
+{% endblock %}

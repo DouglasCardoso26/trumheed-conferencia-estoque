@@ -1,0 +1,32 @@
+{% extends "conferencia/base.html" %}
+{% block titulo %}Registrar recebimento{% endblock %}
+{% block passos %}
+<section class="alert alert-info" aria-label="Passo a passo">
+  <strong>Passo a passo</strong>
+  <ol class="passos list-inline mb-0">
+    <li class="list-inline-item">(1) Escolha o produto.</li>
+    <li class="list-inline-item">(2) Digite a quantidade comprada e a recebida.</li>
+    <li class="list-inline-item">(3) Marque a condição.</li>
+    <li class="list-inline-item">(4) Clique em Salvar conferência.</li>
+  </ol>
+</section>
+{% endblock %}
+{% block cabecalho %}Registrar recebimento{% endblock %}
+{% block conteudo %}
+<form method="post" class="card p-3" style="max-width:640px">
+  {% csrf_token %}
+  {% if form.errors %}<div class="alert alert-danger" role="alert">Confira os campos marcados e tente de novo.</div>{% endif %}
+  {% for campo in form %}
+    {% if campo.name == "condicao" %}
+    <fieldset class="mb-3"><legend class="fs-5 fw-bold">{{ campo.label }}</legend>
+      {% for radio in campo %}<div class="form-check fs-5">{{ radio.tag }} <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label></div>{% endfor %}
+      {{ campo.errors }}</fieldset>
+    {% else %}
+    <div class="mb-3"><label class="fw-bold" for="{{ campo.id_for_label }}">{{ campo.label }}</label>{{ campo }}
+      {% for erro in campo.errors %}<div class="text-danger fw-bold">{{ erro }}</div>{% endfor %}</div>
+    {% endif %}
+  {% endfor %}
+  <div class="d-flex gap-2"><button class="btn btn-primary" type="submit" style="background:#0f4c5c;border-color:#0f4c5c">Salvar conferência</button>
+    <a class="btn btn-outline-secondary" href="{% url 'inicio' %}">Menu inicial</a></div>
+</form>
+{% endblock %}
