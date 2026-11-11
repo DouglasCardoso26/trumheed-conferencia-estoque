@@ -1,0 +1,19 @@
+{% extends "conferencia/base.html" %}
+{% block titulo %}Devoluções pendentes{% endblock %}
+{% block cabecalho %}Devoluções pendentes{% endblock %}
+{% block conteudo %}
+{% if devolucoes %}
+<div class="list-group mb-3">
+  {% for d in devolucoes %}
+  <div class="list-group-item d-flex justify-content-between align-items-center">
+    <div><strong>{{ d.produto.descricao }}</strong> ({{ d.produto.codigo_sku }})<br>
+      <small>Quantidade: {{ d.quantidade }} | Origem: {{ d.canal_origem|default:"não informada" }} | Pedido: {{ d.numero_pedido|default:"-" }}</small></div>
+    <a class="btn btn-primary" href="{% url 'conferir_devolucao' d.pk %}" style="background:#0f4c5c;border-color:#0f4c5c">Conferir</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-success">Nenhuma devolução pendente.</div>
+{% endif %}
+<a class="btn btn-outline-secondary" href="{% url 'inicio' %}">Menu inicial</a>
+{% endblock %}

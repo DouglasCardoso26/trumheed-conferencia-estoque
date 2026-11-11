@@ -1,0 +1,18 @@
+{% extends "conferencia/base.html" %}
+{% block passos %}
+<section class="alert alert-info" aria-label="Passo a passo">
+  <strong>Passo a passo</strong>
+  <ol class="passos list-inline mb-0">
+    <li class="list-inline-item">(1) Escolha o que quer fazer.</li>
+    <li class="list-inline-item">(2) Clique no botão correspondente.</li>
+    <li class="list-inline-item">(3) Siga o passo a passo da próxima tela.</li>
+  </ol>
+</section>
+{% endblock %}
+{% block cabecalho %}O que você quer fazer?{% endblock %}
+{% block conteudo %}
+<div class="row g-3">
+  <div class="col-md-6"><a class="btn btn-outline-primary w-100 p-4 fs-4" href="{% url 'registrar_recebimento' %}">Registrar recebimento<br><small class="fw-normal">Conferir uma compra recebida de fornecedor.</small></a></div>
+  <div class="col-md-6"><a class="btn btn-primary w-100 p-4 fs-4" href="{% url 'fila_devolucoes' %}" style="background:#0f4c5c;border-color:#0f4c5c">Devoluções pendentes ({{ pendentes }})<br><small class="fw-normal">Abrir a caixa e conferir a peça devolvida.</small></a></div>
+</div>
+{% endblock %}

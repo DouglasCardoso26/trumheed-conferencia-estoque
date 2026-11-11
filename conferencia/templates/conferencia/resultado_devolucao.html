@@ -1,0 +1,28 @@
+{% extends "conferencia/base.html" %}
+{% block titulo %}Resultado da conferência{% endblock %}
+{% block passos %}
+<section class="alert alert-info" aria-label="Passo a passo">
+  <strong>Passo a passo</strong>
+  <ol class="passos list-inline mb-0">
+    <li class="list-inline-item">(1) Leia o resultado.</li>
+    <li class="list-inline-item">(2) Faça o ajuste indicado no Bling.</li>
+    <li class="list-inline-item">(3) Volte à fila.</li>
+  </ol>
+</section>
+{% endblock %}
+{% block cabecalho %}Resultado da conferência{% endblock %}
+{% block conteudo %}
+<div class="card p-3" style="max-width:640px">
+  <div class="alert alert-success" role="status">Conferência salva.</div>
+  <dl>
+    <dt>Produto</dt><dd>{{ devolucao.produto.descricao }}</dd>
+    <dt>Condição</dt><dd>{{ devolucao.get_condicao_display }}</dd>
+    <dt>Destino</dt><dd>{{ devolucao.get_destino_display }}</dd>
+    <dt>Responsável</dt><dd>{{ devolucao.conferido_por.get_username }}</dd>
+    <dt>Data</dt><dd>{{ devolucao.data_conferencia|date:"d/m/Y" }}</dd>
+  </dl>
+  <div class="ajuste mb-3"><small>Faça este ajuste no Bling</small><br><strong class="fs-4">{{ devolucao.ajuste_bling }} ({{ devolucao.quantidade }} unidade{{ devolucao.quantidade|pluralize }})</strong></div>
+  <div class="d-flex gap-2"><a class="btn btn-primary" href="{% url 'fila_devolucoes' %}" style="background:#0f4c5c;border-color:#0f4c5c">Voltar à fila</a>
+    <a class="btn btn-outline-secondary" href="{% url 'inicio' %}">Menu inicial</a></div>
+</div>
+{% endblock %}

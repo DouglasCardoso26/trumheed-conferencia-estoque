@@ -1,0 +1,24 @@
+{% extends "conferencia/base.html" %}
+{% block titulo %}Resultado do recebimento{% endblock %}
+{% block cabecalho %}Resultado do recebimento{% endblock %}
+{% block conteudo %}
+<div class="card p-3" style="max-width:640px">
+  {% if recebimento.divergencia %}
+  <div class="alert alert-warning" role="alert"><strong>Divergência de {{ recebimento.divergencia }} unidade{{ recebimento.divergencia|pluralize }}.</strong><br>O sistema registrou a diferença entre o pedido e o recebido.</div>
+  {% else %}
+  <div class="alert alert-success" role="status">Conferência salva, sem divergência.</div>
+  {% endif %}
+  <dl>
+    <dt>Produto</dt><dd>{{ recebimento.produto.descricao }}</dd>
+    <dt>Comprada</dt><dd>{{ recebimento.quantidade_comprada }} unidades</dd>
+    <dt>Recebida</dt><dd>{{ recebimento.quantidade_recebida }} unidades</dd>
+    <dt>Condição</dt><dd>{{ recebimento.get_condicao_display }}</dd>
+    <dt>Responsável</dt><dd>{{ recebimento.conferido_por.get_username }}</dd>
+    <dt>Data</dt><dd>{{ recebimento.data_conferencia|date:"d/m/Y" }}</dd>
+  </dl>
+  {% if recebimento.ajuste_bling %}
+  <div class="ajuste mb-3"><small>Faça este ajuste no Bling</small><br><strong class="fs-4">{{ recebimento.ajuste_bling }}</strong></div>
+  {% endif %}
+  <a class="btn btn-primary" href="{% url 'inicio' %}" style="background:#0f4c5c;border-color:#0f4c5c">Menu inicial</a>
+</div>
+{% endblock %}
