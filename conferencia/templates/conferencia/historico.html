@@ -1,0 +1,38 @@
+{% extends "conferencia/base.html" %}
+{% block titulo %}Histórico de conferências{% endblock %}
+{% block passos %}
+<section class="alert alert-info" aria-label="Passo a passo">
+  <strong>Passo a passo</strong>
+  <ol class="passos list-inline mb-0">
+    <li class="list-inline-item">(1) Veja a lista das conferências já feitas.</li>
+    <li class="list-inline-item">(2) Clique em Ver para abrir o resultado.</li>
+    <li class="list-inline-item">(3) Clique em Menu inicial para voltar.</li>
+  </ol>
+</section>
+{% endblock %}
+{% block cabecalho %}Histórico de conferências{% endblock %}
+{% block conteudo %}
+{% if itens %}
+<div class="table-responsive mb-3">
+  <table class="table table-striped align-middle">
+    <thead><tr><th scope="col">Data</th><th scope="col">Tipo</th><th scope="col">Produto</th><th scope="col">Resultado</th><th scope="col">Ajuste no Bling</th><th scope="col">Responsável</th><th scope="col"><span class="visually-hidden">Abrir</span></th></tr></thead>
+    <tbody>
+    {% for item in itens %}
+      <tr>
+        <td>{{ item.data|date:"d/m/Y H:i" }}</td>
+        <td>{{ item.tipo }}</td>
+        <td>{{ item.produto.descricao }}</td>
+        <td>{{ item.resultado }}</td>
+        <td>{{ item.ajuste|default:"-" }}</td>
+        <td>{{ item.responsavel.get_username }}</td>
+        <td><a class="btn btn-outline-primary btn-sm" href="{{ item.url }}">Ver</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="alert alert-secondary">Nenhuma conferência feita ainda.</div>
+{% endif %}
+<a class="btn btn-outline-secondary" href="{% url 'inicio' %}">Menu inicial</a>
+{% endblock %}

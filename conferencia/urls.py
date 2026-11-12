@@ -10,6 +10,7 @@ urlpatterns = [
     path("devolucoes/", views.fila_devolucoes, name="fila_devolucoes"),
     path("devolucoes/<int:pk>/conferir/", views.conferir_devolucao, name="conferir_devolucao"),
     path("devolucoes/<int:pk>/resultado/", views.resultado_devolucao, name="resultado_devolucao"),
+    path("historico/", views.historico, name="historico"),
     path("recebimentos/novo/", views.registrar_recebimento, name="registrar_recebimento"),
     path("recebimentos/<int:pk>/resultado/", views.resultado_recebimento, name="resultado_recebimento"),
 ]

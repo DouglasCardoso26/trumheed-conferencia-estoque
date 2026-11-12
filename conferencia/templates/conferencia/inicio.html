@@ -12,7 +12,8 @@
 {% block cabecalho %}O que você quer fazer?{% endblock %}
 {% block conteudo %}
 <div class="row g-3">
-  <div class="col-md-6"><a class="btn btn-outline-primary w-100 p-4 fs-4" href="{% url 'registrar_recebimento' %}">Registrar recebimento<br><small class="fw-normal">Conferir uma compra recebida de fornecedor.</small></a></div>
-  <div class="col-md-6"><a class="btn btn-primary w-100 p-4 fs-4" href="{% url 'fila_devolucoes' %}" style="background:#0f4c5c;border-color:#0f4c5c">Devoluções pendentes ({{ pendentes }})<br><small class="fw-normal">Abrir a caixa e conferir a peça devolvida.</small></a></div>
+  <div class="col-md-4"><a class="btn btn-outline-primary w-100 p-4 fs-4" href="{% url 'registrar_recebimento' %}">Registrar recebimento<br><small class="fw-normal">Conferir uma compra recebida de fornecedor.</small></a></div>
+  <div class="col-md-4"><a class="btn btn-primary w-100 p-4 fs-4" href="{% url 'fila_devolucoes' %}" style="background:#0f4c5c;border-color:#0f4c5c">Devoluções pendentes ({{ pendentes }})<br><small class="fw-normal">Abrir a caixa e conferir a peça devolvida.</small></a></div>
+  <div class="col-md-4"><a class="btn btn-outline-primary w-100 p-4 fs-4" href="{% url 'historico' %}">Histórico<br><small class="fw-normal">Consultar as conferências já feitas.</small></a></div>
 </div>
 {% endblock %}
