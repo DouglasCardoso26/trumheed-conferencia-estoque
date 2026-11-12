@@ -4,6 +4,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("saude/", views.saude, name="saude"),
     path("entrar/", auth_views.LoginView.as_view(), name="login"),
     path("sair/", auth_views.LogoutView.as_view(), name="logout"),
     path("", views.inicio, name="inicio"),

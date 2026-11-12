@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.db import connection
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect, render
@@ -109,3 +111,13 @@ def historico(request):
         })
     itens.sort(key=lambda item: item["data"], reverse=True)
     return render(request, "conferencia/historico.html", {"itens": itens[:100]})
+
+
+def saude(request):
+    """Verificação de saúde para o monitoramento: responde ok se o sistema e o banco estão no ar."""
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+    except Exception:
+        return JsonResponse({"status": "erro"}, status=503)
+    return JsonResponse({"status": "ok"})
