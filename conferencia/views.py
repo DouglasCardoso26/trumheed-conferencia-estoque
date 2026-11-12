@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from .forms import ConferenciaDevolucaoForm, RecebimentoForm
 from .models import Devolucao, Recebimento
@@ -68,3 +69,43 @@ def registrar_recebimento(request):
 def resultado_recebimento(request, pk):
     recebimento = get_object_or_404(Recebimento, pk=pk)
     return render(request, "conferencia/resultado_recebimento.html", {"recebimento": recebimento})
+
+
+@login_required
+def historico(request):
+    """Lista as conferências já concluídas (recebimentos e devoluções), da mais recente para a mais antiga."""
+    itens = []
+    recebimentos = (
+        Recebimento.objects.exclude(status=Recebimento.Status.PENDENTE)
+        .select_related("produto", "conferido_por")
+    )
+    for r in recebimentos:
+        if r.divergencia:
+            resultado = f"Divergência de {r.divergencia} unidade(s)"
+        else:
+            resultado = "Sem divergência"
+        itens.append({
+            "tipo": "Recebimento",
+            "produto": r.produto,
+            "resultado": resultado,
+            "ajuste": r.ajuste_bling,
+            "responsavel": r.conferido_por,
+            "data": r.data_conferencia,
+            "url": reverse("resultado_recebimento", args=[r.pk]),
+        })
+    devolucoes = (
+        Devolucao.objects.filter(status=Devolucao.Status.CONFERIDA)
+        .select_related("produto", "conferido_por")
+    )
+    for d in devolucoes:
+        itens.append({
+            "tipo": "Devolução",
+            "produto": d.produto,
+            "resultado": f"{d.get_condicao_display()}, destino {d.get_destino_display()}",
+            "ajuste": d.ajuste_bling,
+            "responsavel": d.conferido_por,
+            "data": d.data_conferencia,
+            "url": reverse("resultado_devolucao", args=[d.pk]),
+        })
+    itens.sort(key=lambda item: item["data"], reverse=True)
+    return render(request, "conferencia/historico.html", {"itens": itens[:100]})
