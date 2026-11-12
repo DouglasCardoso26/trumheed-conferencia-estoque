@@ -1,0 +1,38 @@
+name: CI
+ 
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+ 
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    env:
+      # Valor apenas para os testes; nao e um segredo real.
+      DJANGO_SECRET_KEY: chave-somente-para-testes-no-ci
+      DJANGO_DEBUG: "0"
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,testserver
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+ 
+      - name: Instalar o Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+ 
+      - name: Instalar as dependencias
+        run: pip install -r requirements.txt
+ 
+      - name: Verificar o projeto
+        run: python manage.py check
+ 
+      - name: Conferir se nao faltam migracoes
+        run: python manage.py makemigrations --check --dry-run
+ 
+      - name: Rodar os testes
+        run: python manage.py test -v 2
+ 
